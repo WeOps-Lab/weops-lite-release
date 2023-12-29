@@ -1,0 +1,21 @@
+version: '3.5'
+
+services:
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    networks:
+      - inner      
+    restart: always
+  
+volumes:
+  postgres:
+
+networks:
+  inner:
+    external: true
