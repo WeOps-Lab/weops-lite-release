@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  redis:
+    image: bitnami/redis
+    restart: always
+    networks:
+      - inner      
+    volumes:
+      - redis-data:/bitnami/redis/data
+    environment:
+      - REDIS_PASSWORD=password
+
+volumes:
+  redis-data:
+
+networks:
+  inner:
+    external: true
