@@ -1,0 +1,30 @@
+version: "3.3"
+services:
+
+  traefik:
+    image: "traefik:v3.0.0-beta3"
+    container_name: "traefik"
+    restart: always   
+    command:
+      - "--log.level=INFO"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.https.address=:443"
+
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - traefik     
+    labels:
+      - "traefik.enable=true" 
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`weops-lite.dev.prod`)"
+      - "traefik.http.routers.traefik-dashboard.entrypoints=https" 
+      - "traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080" 
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+networks:
+  traefik:
+    external: true
