@@ -18,11 +18,7 @@ services:
       - "443:443"
     networks:
       - traefik     
-    labels:
-      - "traefik.enable=true" 
-      - "traefik.http.routers.traefik-dashboard.rule=Host(`weops-lite.dev.prod`)"
-      - "traefik.http.routers.traefik-dashboard.entrypoints=https" 
-      - "traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080" 
+      
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 networks:
