@@ -1,0 +1,27 @@
+version: '3'
+services:
+  keycloak:
+    image: bitnami/keycloak:19.0.2
+    environment:
+      KEYCLOAK_ADMIN_USER: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
+      KEYCLOAK_MANAGEMENT_USER: admin
+      KEYCLOAK_MANAGEMENT_PASSWORD: password
+      KEYCLOAK_DATABASE_HOST: postgres
+      KEYCLOAK_DATABASE_NAME: keycloak
+      KEYCLOAK_DATABASE_USER: postgres
+      KEYCLOAK_DATABASE_PASSWORD: password
+    labels:
+      - "traefik.enable=true" 
+      - "traefik.http.routers.keycloak.rule=Host(`keycloak.lite.com`)" 
+      - "traefik.http.services.keycloak.loadbalancer.server.port=8080" # 指定负载均衡器端口     
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.keycloak.entrypoints=web"      
+    networks:
+      - traefik
+      - inner
+networks:
+  traefik:
+    external: true
+  inner:
+    external: true
